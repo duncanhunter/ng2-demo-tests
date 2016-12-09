@@ -1,5 +1,5 @@
 /* tslint:disable:no-unused-variable */
-import { async, fakeAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, fakeAsync, ComponentFixture, TestBed, tick } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
@@ -62,7 +62,8 @@ describe('PaymentComponent', () => {
         component.paymentForm.controls['cardno'].setValue(testCardDetails.cardno);
         component.paymentForm.controls['name'].setValue(testCardDetails.name);
         component.paymentForm.controls['expiry'].setValue(testCardDetails.expiry);
-        component.displayValidationMessages();//todo. tick ? 
+        fixture.detectChanges();
+        tick();
         const expectedMessage = 'Card number is required.';
         expect(component.formErrors['cardno'] ).toEqual(expectedMessage);
     }));
