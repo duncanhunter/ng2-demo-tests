@@ -4,10 +4,10 @@ import { AbstractControl, FormBuilder} from '@angular/forms';
 describe('credit card number validator', () => {
     let getControl = (valueToTest: string) : AbstractControl => {
         let fb = new FormBuilder();
-        let customerForm = fb.group({
+        let paymentForm = fb.group({
             cardNumber: [valueToTest, creditCardValidator()]
         });
-        return customerForm.get('cardNumber') as AbstractControl;
+        return paymentForm.get('cardNumber') as AbstractControl;
     };
 
     it('card number containing 15 numbers should be valid', () => {
@@ -27,6 +27,13 @@ describe('credit card number validator', () => {
         let isControlValid = control && control.valid;
         expect(isControlValid).toBeFalsy();
     });
+
+    it('card numbers that are empty should return required error', () => {
+        let control = getControl('');
+        let requiredErrorMessage = control.errors['required'];
+        expect(requiredErrorMessage).toBeTruthy();
+    });
+
 });
 
 

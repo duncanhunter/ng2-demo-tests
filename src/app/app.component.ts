@@ -7,9 +7,4 @@ import { Purchase } from './purchase';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  purchase = {} as Purchase;
-
-  savePurchase() {
-
-  }
 }
