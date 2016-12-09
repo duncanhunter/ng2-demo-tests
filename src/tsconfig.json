@@ -12,7 +12,8 @@
     "sourceMap": true,
     "target": "es5",
     "types":[
-      "hammerjs","jasmine"
+      "hammerjs",
+      "jasmine"
     ],
     "typeRoots": [
       "../node_modules/@types"

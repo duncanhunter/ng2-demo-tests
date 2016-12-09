@@ -1,10 +1,15 @@
-<md-sidenav-layout [class.m2app-dark]="isDarkTheme">
-
-  <md-toolbar color="primary">
-    FireBootCamp - Angular 2 Testing 
-  </md-toolbar>
-
-  <div class="app-content">
-      <fbc-payment></fbc-payment>
-  </div>
-</md-sidenav-layout>
+<div class="flex-container">
+  <md-card>
+    <md-card-title>Purchase Form</md-card-title>
+    <md-card-content>
+      <form>
+        <md-input class="card-no" placeholder="Card no."></md-input>
+        <md-input class="expiry" placeholder="Expiry"></md-input>
+        <md-input class="name" placeholder="Name"></md-input>
+      </form>
+    </md-card-content>
+    <md-card-actions align="end">
+      <button disabled="true" color="accent" (click)="savePurchase()" md-raised-button>Purchase</button>
+    </md-card-actions>
+  </md-card>
+</div>
