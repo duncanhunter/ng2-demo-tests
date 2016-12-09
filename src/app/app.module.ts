@@ -5,10 +5,12 @@ import { HttpModule } from '@angular/http';
 import { MaterialModule } from '@angular/material';
 import { AppComponent } from './app.component';
 import 'hammerjs';
+import { PaymentComponent } from './payment/payment.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    PaymentComponent
   ],
   imports: [
     BrowserModule,
