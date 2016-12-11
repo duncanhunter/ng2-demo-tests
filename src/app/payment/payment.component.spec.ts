@@ -86,7 +86,25 @@ describe('PaymentComponent', () => {
         expect(cardControl.errors['invalidCardNo']).toBeTruthy();
     }));
 
+    it('should give two errors when card number is invalid and name is empty', fakeAsync(() => {
 
+        const testCardDetails = new DemoCardBuilder()
+            .withValidDetails()
+            .withBlankName()
+            .withInvalidCardNo().build();
+
+        component.paymentForm.patchValue(testCardDetails);
+
+        expect(component.paymentForm.valid).toBeFalsy();
+
+        const nameControl = component.paymentForm.controls['name'];
+        expect(nameControl.errors['required']).toBeTruthy();
+        expect(nameControl.errors['invalidCardNo']).toBeFalsy();
+
+        const cardControl = component.paymentForm.controls['cardno'];
+        expect(cardControl.errors['required']).toBeFalsy();
+        expect(cardControl.errors['invalidCardNo']).toBeTruthy();
+    }));
 
 });
 
