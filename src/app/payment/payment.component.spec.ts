@@ -1,8 +1,9 @@
+import { element } from 'protractor';
 import { CardDetails } from './payment.component';
 /* tslint:disable:no-unused-variable */
 import { async, fakeAsync, ComponentFixture, TestBed, tick } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
+import { DebugElement, NO_ERRORS_SCHEMA } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { creditCardValidator } from './../shared/credit-card-validator';
 import { MaterialModule } from '@angular/material';
@@ -61,8 +62,8 @@ describe('PaymentComponent', () => {
     it('should give an required error when card number is empty', fakeAsync(() => {
 
         const testCardDetails = new DemoCardBuilder()
-                .withValidDetails()
-                .withBlankCardNo().build();
+            .withValidDetails()
+            .withBlankCardNo().build();
 
         component.paymentForm.patchValue(testCardDetails);
 
@@ -74,8 +75,8 @@ describe('PaymentComponent', () => {
     it('should give an invalidCardNo error when card number is invalid', fakeAsync(() => {
 
         const testCardDetails = new DemoCardBuilder()
-                .withValidDetails()
-                .withInvalidCardNo().build();
+            .withValidDetails()
+            .withInvalidCardNo().build();
 
         component.paymentForm.patchValue(testCardDetails);
 
@@ -86,14 +87,61 @@ describe('PaymentComponent', () => {
     }));
 
 
-    // it('should disable the process button if form is invalid', async() => {
-    //     component.paymentForm.patchValue({
-    //         cardno: 'aa',
-    //         name: 'adam s',
-    //         expiry: '08/2019'});
-    // });
 
 });
+
+
+describe('PaymentComponent Shallow Tests', () => {
+    let component: PaymentComponent;
+    let fixture: ComponentFixture<PaymentComponent>;
+
+    beforeEach(async(() => {
+        TestBed.configureTestingModule({
+            declarations: [PaymentComponent],
+            schemas: [NO_ERRORS_SCHEMA],
+            providers: [
+                FormBuilder
+            ],
+            imports: [
+                MaterialModule.forRoot(),
+                ReactiveFormsModule
+            ]
+        })
+            .compileComponents();
+    }));
+
+    beforeEach(() => {
+        fixture = TestBed.createComponent(PaymentComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
+
+    it('should enable the process button if form is valid', fakeAsync(() => {
+
+        const testCardDetails = new DemoCardBuilder()
+            .withValidDetails().build();
+
+        component.paymentForm.patchValue(testCardDetails);
+
+        fixture.detectChanges();
+        const de = fixture.debugElement.query(By.css('.paymentbutton'));
+        const isDisabled = de.nativeElement.disabled;
+        expect(isDisabled).toBeFalsy();
+    }));
+
+    it('should disable the process button if form is invalid', fakeAsync(() => {
+
+        const testCardDetails = new DemoCardBuilder()
+            .withValidDetails().withBlankName().build();
+
+        component.paymentForm.patchValue(testCardDetails);
+
+        const de = fixture.debugElement.query(By.css('.paymentbutton'));
+        const isDisabled = de.nativeElement.disabled;
+        expect(isDisabled).toBeTruthy();
+    }));
+});
+
 
 class DemoCardBuilder {
     cardno: string;
@@ -125,9 +173,9 @@ class DemoCardBuilder {
         this.cardno = 'aa';
         return this;
     }
+
     withBlankName() {
         this.name = '';
         return this;
     }
-
 }
