@@ -1,6 +1,5 @@
 import { element } from 'protractor';
 import { CardDetails } from './payment.component';
-/* tslint:disable:no-unused-variable */
 import { async, fakeAsync, ComponentFixture, TestBed, tick } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement, NO_ERRORS_SCHEMA } from '@angular/core';
@@ -59,7 +58,7 @@ describe('PaymentComponent', () => {
         expect(component.paymentForm.valid).toBeTruthy();
         expect(cardControl.errors).toBeFalsy();
     }));
-    it('should give an required error when card number is empty', fakeAsync(() => {
+    it('should generate a required error when card number is empty', fakeAsync(() => {
 
         const testCardDetails = new DemoCardBuilder()
             .withValidDetails()
@@ -72,7 +71,7 @@ describe('PaymentComponent', () => {
         expect(cardControl.errors['required']).toBeTruthy();
         expect(cardControl.errors['invalidCardNo']).toBeFalsy();
     }));
-    it('should give an invalidCardNo error when card number is invalid', fakeAsync(() => {
+    it('should generate invalidCardNo error when card number is invalid', fakeAsync(() => {
 
         const testCardDetails = new DemoCardBuilder()
             .withValidDetails()
@@ -86,7 +85,7 @@ describe('PaymentComponent', () => {
         expect(cardControl.errors['invalidCardNo']).toBeTruthy();
     }));
 
-    it('should give two errors when card number is invalid and name is empty', fakeAsync(() => {
+    it('should generate two errors when card number is invalid and name is empty', fakeAsync(() => {
 
         const testCardDetails = new DemoCardBuilder()
             .withValidDetails()
@@ -109,7 +108,7 @@ describe('PaymentComponent', () => {
 });
 
 
-describe('PaymentComponent Shallow Tests', () => {
+describe('PaymentComponent template tests', () => {
     let component: PaymentComponent;
     let fixture: ComponentFixture<PaymentComponent>;
 
