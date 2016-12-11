@@ -35,7 +35,7 @@ describe('PaymentComponent', () => {
         expect(component).toBeTruthy();
     });
 
-    it('cardDetails should update when save called', fakeAsync(() => {
+    it('should update cardDetails on savePurchase() ', fakeAsync(() => {
 
         const testCardDetails = {
             cardno: '1111222233334444',
@@ -50,22 +50,40 @@ describe('PaymentComponent', () => {
         expect(component.cardDetails).toEqual(testCardDetails);
     }));
 
+    it('should give no errors when card details are valid', fakeAsync(() => {
 
-    it('should give a card is required error when card number is empty', fakeAsync(() => {
+        component.paymentForm.patchValue({
+            cardno: '1234567890123456',
+            name: 'adam s',
+            expiry: '08/2019'});
 
-        const testCardDetails = {
+        const cardControl = component.paymentForm.controls['cardno'];
+        expect(component.paymentForm.valid).toBeTruthy();
+        expect(cardControl.errors).toBeFalsy();
+    }));
+    it('should give an required error when card number is empty', fakeAsync(() => {
+
+        component.paymentForm.patchValue({
             cardno: '',
             name: 'adam s',
-            expiry: '07/2019'
-        };
+            expiry: '08/2019'});
 
-        component.paymentForm.controls['cardno'].setValue(testCardDetails.cardno);
-        component.paymentForm.controls['name'].setValue(testCardDetails.name);
-        component.paymentForm.controls['expiry'].setValue(testCardDetails.expiry);
-        fixture.detectChanges();
-        tick();
-        const expectedMessage = 'Card number is required.';
-        expect(component.formErrors['cardno'] ).toEqual(expectedMessage);
+        const cardControl = component.paymentForm.controls['cardno'];
+        expect(component.paymentForm.valid).toBeFalsy();
+        expect(cardControl.errors['required']).toBeTruthy();
+        expect(cardControl.errors['invalidCardNo']).toBeFalsy();
+    }));
+    it('should give an invalidCardNo error when card number is invalid', fakeAsync(() => {
+
+        component.paymentForm.patchValue({
+            cardno: 'aa',
+            name: 'adam s',
+            expiry: '08/2019'});
+
+        const cardControl = component.paymentForm.controls['cardno'];
+        expect(component.paymentForm.valid).toBeFalsy();
+        expect(cardControl.errors['required']).toBeFalsy();
+        expect(cardControl.errors['invalidCardNo']).toBeTruthy();
     }));
 
 });

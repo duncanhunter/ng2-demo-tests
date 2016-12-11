@@ -10,25 +10,25 @@ describe('credit card number validator', () => {
         return paymentForm.get('cardNumber') as AbstractControl;
     };
 
-    it('card number containing 15 numbers should be valid', () => {
+    it('should be valid for card number containing 15 numbers', () => {
         let control = getControl('123456789012345');
         let isControlValid = control.valid;
         expect(isControlValid).toBeTruthy();
     });
 
-    it('card number containing letters should be invalid', () => {
+    it('should be invalid for card number containing letters', () => {
         let control = getControl('a234567890123456');
         let isControlValid = control.valid;
         expect(isControlValid).toBeFalsy();
     });
 
-    it('card numbers that are emptyshould be invalid', () => {
+    it('should be invalid for empty card numbers', () => {
         let control = getControl('');
         let isControlValid = control && control.valid;
         expect(isControlValid).toBeFalsy();
     });
 
-    it('card numbers that are empty should return required error', () => {
+    it('should return "required" error for empty card number', () => {
         let control = getControl('');
         let requiredErrorMessage = control.errors['required'];
         expect(requiredErrorMessage).toBeTruthy();
