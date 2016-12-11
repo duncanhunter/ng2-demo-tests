@@ -1,3 +1,4 @@
+import { CardDetails } from './payment.component';
 /* tslint:disable:no-unused-variable */
 import { async, fakeAsync, ComponentFixture, TestBed, tick } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -37,25 +38,21 @@ describe('PaymentComponent', () => {
 
     it('should update cardDetails on savePurchase() ', fakeAsync(() => {
 
-        const testCardDetails = {
-            cardno: '1111222233334444',
-            name: 'adam',
-            expiry: '07/2019'
-        };
+        const testCardDetails = new DemoCardBuilder().withValidDetails().build();
 
         component.paymentForm.controls['cardno'].setValue(testCardDetails.cardno);
         component.paymentForm.controls['name'].setValue(testCardDetails.name);
         component.paymentForm.controls['expiry'].setValue(testCardDetails.expiry);
         component.savePurchase();
+
         expect(component.cardDetails).toEqual(testCardDetails);
     }));
 
     it('should give no errors when card details are valid', fakeAsync(() => {
 
-        component.paymentForm.patchValue({
-            cardno: '1234567890123456',
-            name: 'adam s',
-            expiry: '08/2019'});
+        const testCardDetails = new DemoCardBuilder().withValidDetails().build();
+
+        component.paymentForm.patchValue(testCardDetails);
 
         const cardControl = component.paymentForm.controls['cardno'];
         expect(component.paymentForm.valid).toBeTruthy();
@@ -63,10 +60,11 @@ describe('PaymentComponent', () => {
     }));
     it('should give an required error when card number is empty', fakeAsync(() => {
 
-        component.paymentForm.patchValue({
-            cardno: '',
-            name: 'adam s',
-            expiry: '08/2019'});
+        const testCardDetails = new DemoCardBuilder()
+                .withValidDetails()
+                .withBlankCardNo().build();
+
+        component.paymentForm.patchValue(testCardDetails);
 
         const cardControl = component.paymentForm.controls['cardno'];
         expect(component.paymentForm.valid).toBeFalsy();
@@ -75,10 +73,11 @@ describe('PaymentComponent', () => {
     }));
     it('should give an invalidCardNo error when card number is invalid', fakeAsync(() => {
 
-        component.paymentForm.patchValue({
-            cardno: 'aa',
-            name: 'adam s',
-            expiry: '08/2019'});
+        const testCardDetails = new DemoCardBuilder()
+                .withValidDetails()
+                .withInvalidCardNo().build();
+
+        component.paymentForm.patchValue(testCardDetails);
 
         const cardControl = component.paymentForm.controls['cardno'];
         expect(component.paymentForm.valid).toBeFalsy();
@@ -86,4 +85,49 @@ describe('PaymentComponent', () => {
         expect(cardControl.errors['invalidCardNo']).toBeTruthy();
     }));
 
+
+    // it('should disable the process button if form is invalid', async() => {
+    //     component.paymentForm.patchValue({
+    //         cardno: 'aa',
+    //         name: 'adam s',
+    //         expiry: '08/2019'});
+    // });
+
 });
+
+class DemoCardBuilder {
+    cardno: string;
+    name: string;
+    expiry: string;
+
+    build() {
+        return {
+            cardno: this.cardno,
+            name: this.name,
+            expiry: this.expiry
+        };
+    }
+
+    withValidDetails() {
+        this.cardno = '1234567890123456';
+        this.name = 'adam s';
+        this.expiry = '08/2019';
+
+        return this;
+    };
+
+    withBlankCardNo() {
+        this.cardno = '';
+        return this;
+    }
+
+    withInvalidCardNo() {
+        this.cardno = 'aa';
+        return this;
+    }
+    withBlankName() {
+        this.name = '';
+        return this;
+    }
+
+}
