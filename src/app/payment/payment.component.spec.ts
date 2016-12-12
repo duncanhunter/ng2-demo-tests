@@ -36,14 +36,14 @@ describe('PaymentComponent', () => {
         expect(component).toBeTruthy();
     });
 
-    it('should update cardDetails on savePurchase() ', fakeAsync(() => {
+    it('should update cardDetails on savePayment() ', fakeAsync(() => {
 
         const testCardDetails = new DemoCardBuilder().withValidDetails().build();
 
         component.paymentForm.controls['cardno'].setValue(testCardDetails.cardno);
         component.paymentForm.controls['name'].setValue(testCardDetails.name);
         component.paymentForm.controls['expiry'].setValue(testCardDetails.expiry);
-        component.savePurchase();
+        component.savePayment();
 
         expect(component.cardDetails).toEqual(testCardDetails);
     }));

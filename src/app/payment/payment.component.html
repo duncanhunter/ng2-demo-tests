@@ -1,37 +1,33 @@
-<div class="flex-container">
-  <md-card>
-    <md-card-title>Purchase Form</md-card-title>
-    <md-card-content>
-      <form novalidate [formGroup]="paymentForm" >
-        <div class="form-group">
-          <md-input id="cardno" class="form-control" formControlName="cardno" class="card-no" placeholder="Card no." maxlength="16">
-            <md-hint *ngIf="formErrors.cardno">{{ formErrors.cardno }}</md-hint>
-          </md-input>
-          <md-input id="expiry" class="form-control" formControlName="expiry" class="expiry" placeholder="Expiry">
-            <md-hint *ngIf="formErrors.expiry">{{ formErrors.expiry }}</md-hint>
-          </md-input>
-          <md-input id="name" class="form-control" formControlName="name" class="name" placeholder="Name">
-            <md-hint *ngIf="formErrors.name">{{ formErrors.name }}</md-hint>
-          </md-input>
-        </div>
-      </form>
-    </md-card-content>
-    <md-card-actions align="end">
-      <button class="paymentbutton" [disabled]="!paymentForm.valid" color="accent" (click)="savePurchase()" md-raised-button>Purchase</button>
-    </md-card-actions>
+<md-card>
+  <md-card-title>Purchase Form</md-card-title>
+  <md-card-content>
+    <form novalidate [formGroup]="paymentForm">
+      <div class="form-group">
+        <md-input id="cardno" class="form-control" formControlName="cardno" class="card-no" placeholder="Card no." maxlength="16">
+          <md-hint *ngIf="formErrors.cardno">{{ formErrors.cardno }}</md-hint>
+        </md-input>
+        <md-input id="expiry" class="form-control" formControlName="expiry" class="expiry" placeholder="Expiry">
+          <md-hint *ngIf="formErrors.expiry">{{ formErrors.expiry }}</md-hint>
+        </md-input>
+        <md-input id="name" class="form-control" formControlName="name" class="name" placeholder="Name">
+          <md-hint *ngIf="formErrors.name">{{ formErrors.name }}</md-hint>
+        </md-input>
+      </div>
+    </form>
+  </md-card-content>
+  <md-card-actions align="end">
+    <button class="paymentbutton" [disabled]="!paymentForm.valid" color="accent" (click)="savePayment()" md-raised-button>Purchase</button>
+  </md-card-actions>
 
-  </md-card>
-</div>
+</md-card>
 
 <md-card>
   <md-card-title>Card Details</md-card-title>
   {{cardDetails | json}}
 </md-card>
 
-
 <md-card>
   <md-card-title>Form Errors</md-card-title>
   <div>IsValid {{paymentForm.valid}}</div>
   {{formErrors | json}}
 </md-card>
-

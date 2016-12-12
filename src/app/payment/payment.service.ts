@@ -1,19 +1,19 @@
 import { Http } from '@angular/http';
 import { Injectable } from '@angular/core';
-import { Purchase } from './purchase';
+import { Payment } from './payment';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 
 @Injectable()
-export class PurchaseService {
+export class PaymentService {
 
   constructor(private http: Http) { }
 
-  savePurchase(purchase: Purchase): Observable<Purchase> {
-    return this.http.post(``, JSON.stringify(purchase))
+  savePayment(payment: Payment): Observable<Payment> {
+    return this.http.post(``, JSON.stringify(payment))
       .map(result => result.json())
-      .catch(error => Observable.throw(error))
+      .catch(error => Observable.throw(error));
   }
 
 }

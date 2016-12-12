@@ -3,7 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { creditCardValidator } from './../shared/credit-card-validator';
 
 @Component({
-  selector: 'fbc-payment',
+  selector: 'app-payment',
   templateUrl: './payment.component.html',
   styleUrls: ['./payment.component.css']
 })
@@ -53,7 +53,7 @@ export class PaymentComponent implements OnInit {
     this.onValueChanged(); // (re)set validation messages now
   }
 
-  savePurchase() {
+  savePayment() {
     this.submitted = true;
     this.cardDetails = this.paymentForm.value;
     this.paymentForm.reset();

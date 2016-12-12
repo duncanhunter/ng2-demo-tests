@@ -1,11 +1,8 @@
+
 md-card {
-    max-width: 820px;
+    max-width: 940px;
     width: 100%;
-    align-items: center
-}
-.flex-container {
-    display: flex;
-    justify-content: center;
+    align-items: center;
     margin: 15px;
 }
 

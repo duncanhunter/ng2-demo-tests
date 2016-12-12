@@ -6,6 +6,7 @@ import { MaterialModule } from '@angular/material';
 import { AppComponent } from './app.component';
 import 'hammerjs';
 import { PaymentComponent } from './payment/payment.component';
+import { PaymentService } from './payment/payment.service';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,9 @@ import { PaymentComponent } from './payment/payment.component';
     HttpModule,
     MaterialModule.forRoot()
   ],
-  providers: [],
+  providers: [
+    PaymentService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
