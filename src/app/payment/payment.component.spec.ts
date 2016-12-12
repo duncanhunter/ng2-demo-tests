@@ -1,42 +1,52 @@
 import { element } from 'protractor';
 import { CardDetails } from './payment.component';
-import { async, fakeAsync, ComponentFixture, TestBed, tick } from '@angular/core/testing';
+import { fakeAsync, async, ComponentFixture, TestBed, tick, inject } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement, NO_ERRORS_SCHEMA } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { creditCardValidator } from './../shared/credit-card-validator';
 import { MaterialModule } from '@angular/material';
 import { PaymentComponent } from './payment.component';
+import { PaymentService } from './payment.service';
+import { BaseRequestOptions, Http, HttpModule, XHRBackend } from '@angular/http';
+import { MockBackend } from '@angular/http/testing';
+
 
 describe('PaymentComponent', () => {
     let component: PaymentComponent;
     let fixture: ComponentFixture<PaymentComponent>;
+    let mockBackend: XHRBackend;
+    let paymentService: PaymentService;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             declarations: [PaymentComponent],
             providers: [
-                FormBuilder
+                FormBuilder,
+                PaymentService,
+                { provide: XHRBackend, useClass: MockBackend }
             ],
             imports: [
                 MaterialModule.forRoot(),
-                ReactiveFormsModule
+                ReactiveFormsModule,
+                HttpModule
             ]
-        })
-            .compileComponents();
-    }));
+        });
 
-    beforeEach(() => {
         fixture = TestBed.createComponent(PaymentComponent);
         component = fixture.componentInstance;
+        paymentService = TestBed.get(PaymentService);
+        mockBackend = TestBed.get(XHRBackend);
+        TestBed.compileComponents();
         fixture.detectChanges();
-    });
+    }));
+
 
     it('should create', () => {
         expect(component).toBeTruthy();
     });
 
-    it('should update cardDetails on savePayment() ', fakeAsync(() => {
+    it('should update cardDetails on savePayment() ', async(() => {
 
         const testCardDetails = new DemoCardBuilder().withValidDetails().build();
 
@@ -48,7 +58,7 @@ describe('PaymentComponent', () => {
         expect(component.cardDetails).toEqual(testCardDetails);
     }));
 
-    it('should give no errors when card details are valid', fakeAsync(() => {
+    it('should give no errors when card details are valid', async(() => {
 
         const testCardDetails = new DemoCardBuilder().withValidDetails().build();
 
@@ -58,7 +68,7 @@ describe('PaymentComponent', () => {
         expect(component.paymentForm.valid).toBeTruthy();
         expect(cardControl.errors).toBeFalsy();
     }));
-    it('should generate a required error when card number is empty', fakeAsync(() => {
+    it('should generate a required error when card number is empty', async(() => {
 
         const testCardDetails = new DemoCardBuilder()
             .withValidDetails()
@@ -71,7 +81,7 @@ describe('PaymentComponent', () => {
         expect(cardControl.errors['required']).toBeTruthy();
         expect(cardControl.errors['invalidCardNo']).toBeFalsy();
     }));
-    it('should generate invalidCardNo error when card number is invalid', fakeAsync(() => {
+    it('should generate invalidCardNo error when card number is invalid', async(() => {
 
         const testCardDetails = new DemoCardBuilder()
             .withValidDetails()
@@ -85,7 +95,7 @@ describe('PaymentComponent', () => {
         expect(cardControl.errors['invalidCardNo']).toBeTruthy();
     }));
 
-    it('should generate two errors when card number is invalid and name is empty', fakeAsync(() => {
+    it('should generate two errors when card number is invalid and name is empty', async(() => {
 
         const testCardDetails = new DemoCardBuilder()
             .withValidDetails()
@@ -111,29 +121,35 @@ describe('PaymentComponent', () => {
 describe('PaymentComponent template tests', () => {
     let component: PaymentComponent;
     let fixture: ComponentFixture<PaymentComponent>;
+    let mockBackend: XHRBackend;
+    let paymentService: PaymentService;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             declarations: [PaymentComponent],
-            schemas: [NO_ERRORS_SCHEMA],
             providers: [
-                FormBuilder
+                FormBuilder,
+                PaymentService,
+                { provide: XHRBackend, useClass: MockBackend }
             ],
             imports: [
                 MaterialModule.forRoot(),
-                ReactiveFormsModule
+                ReactiveFormsModule,
+                HttpModule
             ]
-        })
-            .compileComponents();
-    }));
+        });
 
-    beforeEach(() => {
         fixture = TestBed.createComponent(PaymentComponent);
         component = fixture.componentInstance;
+        paymentService = TestBed.get(PaymentService);
+        mockBackend = TestBed.get(XHRBackend);
+        TestBed.compileComponents();
         fixture.detectChanges();
-    });
 
-    it('should enable the process button if form is valid', fakeAsync(() => {
+    }));
+
+
+    it('should enable the process button if form is valid', async(() => {
 
         const testCardDetails = new DemoCardBuilder()
             .withValidDetails().build();
@@ -146,7 +162,7 @@ describe('PaymentComponent template tests', () => {
         expect(isDisabled).toBeFalsy();
     }));
 
-    it('should disable the process button if form is invalid', fakeAsync(() => {
+    it('should disable the process button if form is invalid', async(() => {
 
         const testCardDetails = new DemoCardBuilder()
             .withValidDetails().withBlankName().build();

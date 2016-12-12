@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { creditCardValidator } from './../shared/credit-card-validator';
+import { PaymentService } from './payment.service';
 
 @Component({
   selector: 'app-payment',
@@ -35,7 +36,9 @@ export class PaymentComponent implements OnInit {
     }
   };
 
-  constructor(private fb: FormBuilder) { }
+  constructor(
+    private paymentService: PaymentService,
+    private fb: FormBuilder) { }
 
   ngOnInit() {
     this.buildForm();
