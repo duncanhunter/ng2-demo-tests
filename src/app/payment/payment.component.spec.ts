@@ -67,6 +67,8 @@ describe(`Component: Payment Component`, () => {
         let submitButton = fixture.debugElement.query(By.css('.btn'));
         console.log(submitButton);
         const isDisabled =  submitButton.nativeElement.disabled;
+        
+        console.log(submitButton.nativeElement.style.backgroundColor);
         console.log(isDisabled);
         expect(isDisabled).toBeFalsy();
 
