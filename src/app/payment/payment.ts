@@ -1,4 +1,4 @@
 export interface Payment {
-    creditCardNumber: number;
+    creditCardNumber: string;
     amount: number;
 }

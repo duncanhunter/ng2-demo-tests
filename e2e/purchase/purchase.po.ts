@@ -1,7 +1,7 @@
 import { browser, element, by } from 'protractor';
 
 export class PurchasePage {
-  
+
   static async navigateTo() {
     return await browser.get('/');
   }

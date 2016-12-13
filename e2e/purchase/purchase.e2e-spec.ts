@@ -1,4 +1,5 @@
 import { PurchasePage } from './purchase.po';
+import { browser } from 'protractor';
 
 beforeEach(async () => {
   await PurchasePage.navigateTo();
@@ -12,7 +13,7 @@ describe('Payment Page', () => {
 
     const purchaseButton = PurchasePage.getPurchaseButton();
 
-    expect(await purchaseButton.getAttribute('disabled')).toEqual('false');
+    expect(await purchaseButton.getAttribute('disabled')).toBeFalsy();
 
   });
 });
