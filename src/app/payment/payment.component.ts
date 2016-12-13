@@ -7,13 +7,16 @@ import { PaymentService } from './payment.service';
   styleUrls: ['./payment.component.css']
 })
 export class PaymentComponent implements OnInit {
-  CREDIT_CARD_NUMBER_PATTERN = '^[0-9]{16}$';
+  CREDIT_CARD_NUMBER_PATTERN = '^[0-9]{15,16}$';
+  formTitle = 'Payment Form';
   cardNumber: number;
 
-  constructor(private paymentService: PaymentService) {}
+  constructor(private paymentService: PaymentService) { }
 
   ngOnInit() { }
 
-  savePurchase() { }
+  processPayment() {
+    return this.paymentService.processPayment(this.cardNumber);
+   }
 }
 

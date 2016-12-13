@@ -6,33 +6,48 @@ import { Http, HttpModule } from '@angular/http';
 import { Payment } from './payment';
 
 describe(`Component: Payment Component`, () => {
-    let component = PaymentComponent,
-        paymentService: PaymentService,
-        fixture: ComponentFixture<any>;
+    let component: PaymentComponent,
+        paymentService: any,
+        fixture: ComponentFixture<PaymentComponent>;
 
-    beforeEach(async(() => {
-        TestBed.configureTestingModule({
-            declarations: [
-                PaymentComponent
-            ],
-            imports: [
-                FormsModule,
-            ],
-            providers: [
-                { provide: PaymentService, useValue: {} as any }
-            ]
-        });
+    beforeEach(() => {
 
-        fixture = TestBed.createComponent(PaymentComponent);
-        component = fixture.componentInstance;
-        paymentService = TestBed.get(PaymentService);
+        paymentService = {
+            processPayment: () => { }
+        };
 
-    }));
+        component = new PaymentComponent(paymentService);
+
+    });
+    // beforeEach(async(() => {
+    //     TestBed.configureTestingModule({
+    //         declarations: [
+    //             PaymentComponent
+    //         ],
+    //         imports: [
+    //             FormsModule,
+    //         ],
+    //         providers: [
+    //             { provide: PaymentService, useValue: {} as any }
+    //         ]
+    //     });
+
+    //     fixture = TestBed.createComponent(PaymentComponent);
+    //     component = fixture.componentInstance;
+    //     paymentService = TestBed.get(PaymentService);
+
+    // }));
 
 
     it(`should instantiate a component`, () => {
         expect(component).toBeTruthy();
     });
+
+    it(`should call the payment service on submit`, async(() => {
+        let spy = spyOn(paymentService, 'processPayment');
+        component.processPayment();
+        expect(spy).toHaveBeenCalled();
+    }));
 
 });
 
