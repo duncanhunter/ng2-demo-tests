@@ -20,6 +20,7 @@ describe(`Component: Payment Component`, () => {
     //     component = new PaymentComponent(paymentService);
 
     // });
+    
     beforeEach(async(() => {
         paymentService = {
             processPayment: () => { }
@@ -40,7 +41,6 @@ describe(`Component: Payment Component`, () => {
         fixture = TestBed.createComponent(PaymentComponent);
         component = fixture.componentInstance;
         paymentService = TestBed.get(PaymentService);
-
     }));
 
 
@@ -60,29 +60,17 @@ describe(`Component: Payment Component`, () => {
         expect(spy).toHaveBeenCalled();
     }));
 
-    it(`should have a active submit button`, async(() => {
-        component.payment.creditCardNumber = '11112222333344';
-        console.log(component.payment.creditCardNumber);
+    it(`should have a active submit button`, () => {
+        component.payment.creditCardNumber = '1111222233334444';
         fixture.detectChanges();
-        let submitButton = fixture.debugElement.query(By.css('.btn'));
-        console.log(submitButton);
-        const isDisabled =  submitButton.nativeElement.disabled;
-        
-        console.log(submitButton.nativeElement.style.backgroundColor);
-        console.log(isDisabled);
-        expect(isDisabled).toBeFalsy();
+        let ne = fixture.debugElement.query(By.css('.btn')).nativeElement;
+        return fixture.whenStable().then(() => {
+            fixture.detectChanges();
+            console.log(ne.disabled);
+            expect(ne.disabled).toBeFalsy();
+        });
 
-        		
-//  -        component.paymentForm.patchValue(testCardDetails);		
-//  -		
-//  -        fixture.detectChanges();		
-//  -        const de = fixture.debugElement.query(By.css('.paymentbutton'));		
-//  -        const isDisabled = de.nativeElement.disabled;		
-//  -        expect(isDisabled).toBeFalsy();
 
-        //1 fill in the form detectChanges()
-        //2 select the button 
-        // expect button att toNOtBe diabled
-    }));
+    });
 
 });
