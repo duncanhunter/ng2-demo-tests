@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { PaymentService } from './payment.service';
+import { Payment } from './payment';
 
 @Component({
   selector: 'app-payment',
@@ -9,14 +10,14 @@ import { PaymentService } from './payment.service';
 export class PaymentComponent implements OnInit {
   CREDIT_CARD_NUMBER_PATTERN = '^[0-9]{15,16}$';
   formTitle = 'Payment Form';
-  cardNumber: number;
+  payment = {} as Payment;
 
   constructor(private paymentService: PaymentService) { }
 
   ngOnInit() { }
 
   processPayment() {
-    return this.paymentService.processPayment(this.cardNumber);
-   }
+     this.paymentService.processPayment(this.payment);
+  }
 }
 
