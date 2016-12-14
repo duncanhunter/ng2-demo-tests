@@ -1,19 +1,18 @@
-import { PurchasePage } from './purchase.po';
-import { browser } from 'protractor';
-
-beforeEach(async () => {
-  await PurchasePage.navigateTo();
-});
+import { browser, element, by } from 'protractor';
 
 describe('Payment Page', () => {
 
   it('should have an active purchase button with valid form', async () => {
 
-    PurchasePage.getInput('input').sendKeys('1111222233334444');
+    browser.get('./');
 
-    const purchaseButton = PurchasePage.getPurchaseButton();
+    element(by.css('input')).sendKeys('1111222233334444');
 
-    expect(await purchaseButton.getAttribute('disabled')).toBeFalsy();
+    const purchaseButton = element(by.css('button'));
+
+    const result = await purchaseButton.getAttribute('disabled');
+
+    expect(result).toBeFalsy();
 
   });
 });
