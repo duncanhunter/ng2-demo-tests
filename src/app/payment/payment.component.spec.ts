@@ -1,76 +1,63 @@
-import { TestBed, async, ComponentFixture } from '@angular/core/testing';
 import { PaymentComponent } from './payment.component';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { PaymentService } from './payment.service';
-import { Payment } from './payment';
-import { Component } from '@angular/core';
 import { By } from '@angular/platform-browser';
 
-describe(`Component: Payment Component`, () => {
-    let component: PaymentComponent,
-        paymentService: any,
-        fixture: ComponentFixture<PaymentComponent>;
+describe(`Component: PaymentComponent`, () => {
+    let component: PaymentComponent;
+    let mockPaymentService: any;
+    let fixture: ComponentFixture<PaymentComponent>;
 
-    // beforeEach(() => {
-
-    //     paymentService = {
-    //         processPayment: () => { }
-    //     };
-
-    //     component = new PaymentComponent(paymentService);
-
-    // });
-    
-    beforeEach(async(() => {
-        paymentService = {
+    beforeEach(() => {
+        mockPaymentService = {
             processPayment: () => { }
         };
+
+        //component = new PaymentComponent(paymentService);
 
         TestBed.configureTestingModule({
             declarations: [
                 PaymentComponent
             ],
             imports: [
-                FormsModule,
+                FormsModule
             ],
             providers: [
-                { provide: PaymentService, useValue: paymentService }
+                { provide: PaymentService, useValue: mockPaymentService }
             ]
         });
 
         fixture = TestBed.createComponent(PaymentComponent);
         component = fixture.componentInstance;
-        paymentService = TestBed.get(PaymentService);
-    }));
+        mockPaymentService = TestBed.get(PaymentService);
+    });
 
-
-    it(`should instantiate a component`, () => {
+    it(`should count 1 + 1`, () => {
         expect(1 + 1).toEqual(2);
     });
 
-    it('card number containing 16 numbers should be valid', () => {
-        let regex = new RegExp(component.CREDIT_CARD_NUMBER_PATTERN);
-        let result = regex.test('1111222233334444');
-        expect(result).toBeTruthy();
+    it(`should have a regex patter that only accepts 15/16 numbers`, () => {
+        const regex = new RegExp(component.CREDIT_CARD_NUMBER_PATTERN);
+        const regexResult = regex.test('1111222233334444');
+        expect(regexResult).toEqual(true);
     });
 
-    it(`should call the payment service on submit`, async(() => {
-        let spy = spyOn(paymentService, 'processPayment');
+    it(`should call PaymentService.processPayment on form submission `, () => {
+        let spy = spyOn(mockPaymentService, 'processPayment')
+        component.payment.creditCardNumber = '1111222233334444';
         component.processPayment();
-        expect(spy).toHaveBeenCalled();
-    }));
+        expect(spy).toHaveBeenCalledWith(component.payment);
+    });
 
-    it(`should have a active submit button`, () => {
+    it(`should have a an active submit button whe the form is valid`, () => {
         component.payment.creditCardNumber = '1111222233334444';
         fixture.detectChanges();
-        let ne = fixture.debugElement.query(By.css('.btn')).nativeElement;
-        return fixture.whenStable().then(() => {
+        let nativeButtonElement = fixture.debugElement.query(By.css('button')).nativeElement;
+        fixture.whenStable().then(() => {
             fixture.detectChanges();
-            console.log(ne.disabled);
-            expect(ne.disabled).toBeFalsy();
+            expect(nativeButtonElement.disabled).toEqual(false);
         });
-
-
     });
 
 });

@@ -5,7 +5,6 @@ import { Payment } from './payment';
 @Component({
   selector: 'app-payment',
   templateUrl: './payment.component.html',
-  styleUrls: ['./payment.component.css']
 })
 export class PaymentComponent implements OnInit {
   CREDIT_CARD_NUMBER_PATTERN = '^[0-9]{15,16}$';

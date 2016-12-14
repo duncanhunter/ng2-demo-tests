@@ -1,9 +1,17 @@
+
+
+
 <div class="well clearfix">
   <h4>{{formTitle}}</h4>
   <form (ngSubmit)="processPayment()" #purchaseForm="ngForm">
     <input type="text" class="form-control" placeholder="credit card no..." 
       #card="ngModel" name="card" [(ngModel)]="payment.creditCardNumber"
       required [pattern]="CREDIT_CARD_NUMBER_PATTERN">
-    <button class="btn btn-success pull-right" type="submit" [disabled]="!purchaseForm.form.valid">Purchase</button>
+    <button class="btn btn-success pull-right" type="submit" 
+    [disabled]="!purchaseForm.form.valid">Purchase</button>
   </form>
 </div>
+
+
+
+
