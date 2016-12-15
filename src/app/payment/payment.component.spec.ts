@@ -14,7 +14,7 @@ describe(`Component: PaymentComponent`, () => {
             processPayment: () => { }
         };
 
-        //component = new PaymentComponent(paymentService);
+        // component = new PaymentComponent(paymentService);
 
         TestBed.configureTestingModule({
             declarations: [
@@ -44,7 +44,7 @@ describe(`Component: PaymentComponent`, () => {
     });
 
     it(`should call PaymentService.processPayment on form submission `, () => {
-        let spy = spyOn(mockPaymentService, 'processPayment')
+        let spy = spyOn(mockPaymentService, 'processPayment');
         component.payment.creditCardNumber = '1111222233334444';
         component.processPayment();
         expect(spy).toHaveBeenCalledWith(component.payment);
